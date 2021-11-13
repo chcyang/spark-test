@@ -1,4 +1,4 @@
-package main.scala
+package
 
 object AccumulateCompute {
 
