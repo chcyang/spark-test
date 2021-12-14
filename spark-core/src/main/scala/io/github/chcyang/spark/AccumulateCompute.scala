@@ -1,6 +1,8 @@
+package io.github.chcyang
+
 package
 
-object AccumulateCompute {
+object spark {
 
   def main(args: Array[String]): Unit = {
 

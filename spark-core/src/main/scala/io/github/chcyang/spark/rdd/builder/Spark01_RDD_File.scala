@@ -1,9 +1,9 @@
-package rdd.builder
+package io.github.chcyang.spark.rdd.builder
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 
-object Spark01_RDD_Memory_par {
+object Spark01_RDD_File {
 
   def main(args: Array[String]): Unit = {
     // 创建环境
@@ -11,12 +11,9 @@ object Spark01_RDD_Memory_par {
     val sparkConf = new SparkConf().setMaster("local[*]").setAppName("RDD")
     val sc = new SparkContext(sparkConf)
     //创建RDD
-    val seq = Seq[Int](1, 2, 3, 4)
+    val rdd: RDD[String] = sc.textFile("data.txt")
 
-    //    val rdd: RDD[Int] = sc.parallelize(seq)
-    val rdd: RDD[Int] = sc.makeRDD(seq,3)
-
-    rdd.saveAsTextFile("output")
+    rdd.collect().foreach(println)
     // 关闭环境
     sc.stop()
   }

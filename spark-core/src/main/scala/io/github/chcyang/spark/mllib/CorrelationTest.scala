@@ -1,4 +1,4 @@
-package main.scala.mllib
+package io.github.chcyang.spark.mllib
 
 import org.apache.spark.ml.linalg.{Matrix, Vectors}
 import org.apache.spark.ml.stat.Correlation

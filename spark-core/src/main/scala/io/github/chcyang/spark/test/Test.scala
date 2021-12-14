@@ -1,4 +1,5 @@
-package test
+package io.github.chcyang.spark.test
+
 object Test {
 
   def main(args: Array[String]): Unit = {

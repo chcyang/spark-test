@@ -1,3 +1,5 @@
+package io.github.chcyang.spark
+
 
 import org.apache.spark.{ SparkConf, SparkContext }
 
