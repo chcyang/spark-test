@@ -29,6 +29,12 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-mllib_2.12</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.tensorflow/tensorflow -->
+        <dependency>
+            <groupId>org.tensorflow</groupId>
+            <artifactId>tensorflow</artifactId>
+            <version>1.15.0</version>
+        </dependency>
     </dependencies>
 
 </project>
