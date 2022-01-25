@@ -1,4 +1,4 @@
-package github.chcyang.spark.mllib
+package io.github.chcyang.spark.mllib
 
 import org.apache.spark.sql.SparkSession
 

@@ -1,4 +1,4 @@
-package io.github.chcyang.spark.test
+package io.github.chcyang.spark
 
 object Flatten {
 
