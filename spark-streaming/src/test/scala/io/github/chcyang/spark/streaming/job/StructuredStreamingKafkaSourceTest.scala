@@ -4,7 +4,7 @@ object StructuredStreamingKafkaSourceTest {
 
   def main(args: Array[String]): Unit = {
 
-    new TestStructuredStreamingKafkaSource().run()
+    new StructuredStreamingKafkaSource().run()
   }
 
 }

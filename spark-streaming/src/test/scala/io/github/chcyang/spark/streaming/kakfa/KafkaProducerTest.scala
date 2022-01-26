@@ -12,7 +12,9 @@ object KafkaProducerTest {
     val kafkaProducer: Producer[String, String] = new KafkaClient().getProducer()
     val random = new Random()
 
-    for (i <- 1 to 100) {
+    var i = 0
+    while (true) {
+      i = i + 1
       val key = random.nextInt().toString
       val value = random.alphanumeric.take(10).mkString
       val record: ProducerRecord[String, String] = new ProducerRecord("test-streaming-rand", key, value)
@@ -20,6 +22,7 @@ object KafkaProducerTest {
       kafkaProducer.send(record, new Callback {
         override def onCompletion(recordMetadata: RecordMetadata, e: Exception): Unit = println(s"send complete $i")
       })
+      Thread.sleep(100)
     }
 
     kafkaProducer.flush()

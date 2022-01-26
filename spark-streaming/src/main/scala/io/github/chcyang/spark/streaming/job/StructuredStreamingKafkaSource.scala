@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.streaming.{OutputMode, Trigger}
 
-class TestStructuredStreamingKafkaSource {
+class StructuredStreamingKafkaSource {
 
 
   def run(): Unit = {
@@ -18,21 +18,32 @@ class TestStructuredStreamingKafkaSource {
       .option("kafka.bootstrap.servers", "192.168.1.123:6667,192.168.1.124:6667,192.168.1.125:6667")
       .option("subscribe", "test-streaming-rand")
       .option("startOffsets", "earliest")
-      .option("maxOffsetsPerTrigger", 100)
+      .option("maxOffsetsPerTrigger", 10)
       .load()
 
 
     import spark.implicits._
-    val selectDf = df.selectExpr("CAST(key AS STRING) as key", "CAST(value AS STRING) as value")
-      .as[(String, String)]
+    val selectDf = df.selectExpr("CAST(key AS STRING) as key",
+      "CAST(value AS STRING) as value",
+      "CAST(timestamp AS LONG) as timestamp"
+    )
+      .as[(String, String, Long)]
 
-    selectDf.writeStream
+    import org.apache.spark.sql.functions._
+    selectDf
+      .withWatermark("timestamp", "1 hours")
+      .groupBy(
+        window($"timestamp", "15 minutes"),
+        $"value")
+      .count()
+
+      .writeStream
       .format("console")
+      .option("checkpointLocation", "/Users/neco/appsource/spark-test/checkpoint")
       .outputMode(OutputMode.Append())
-      .trigger(Trigger.ProcessingTime(10, TimeUnit.SECONDS))
+      .trigger(Trigger.ProcessingTime(30, TimeUnit.SECONDS))
       .start()
       .awaitTermination()
-
 
     spark.stop()
 
