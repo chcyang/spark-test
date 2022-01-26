@@ -9,7 +9,7 @@ object KafkaProducerTest {
 
   def main(args: Array[String]): Unit = {
 
-    val kafkaProducer: Producer[String, String] = KafkaClient.getProducer()
+    val kafkaProducer: Producer[String, String] = new KafkaClient().getProducer()
     val random = new Random()
 
     for (i <- 1 to 100) {
