@@ -31,6 +31,13 @@ class StructuredStreamingKafkaSource {
 
     import org.apache.spark.sql.functions._
     selectDf
+      .map {
+        x =>
+          println(s"key=${x._1},value=${x._2},timestamp=${x._3}")
+          x
+      }
+      .toDF("key", "value", "timestamp")
+      .withColumn("timestamp", to_timestamp(col("timestamp")))
       .withWatermark("timestamp", "1 hours")
       .groupBy(
         window($"timestamp", "15 minutes"),
@@ -40,7 +47,7 @@ class StructuredStreamingKafkaSource {
       .writeStream
       .format("console")
       .option("checkpointLocation", "/Users/neco/appsource/spark-test/checkpoint")
-      .outputMode(OutputMode.Append())
+      .outputMode(OutputMode.Update())
       .trigger(Trigger.ProcessingTime(30, TimeUnit.SECONDS))
       .start()
       .awaitTermination()
