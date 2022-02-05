@@ -17,7 +17,7 @@ class StructuredStreamingKafkaSource {
     val df = spark.readStream.format("kafka")
       .option("kafka.bootstrap.servers", "192.168.1.123:6667,192.168.1.124:6667,192.168.1.125:6667")
       .option("subscribe", "test-streaming-rand")
-      .option("startOffsets", "earliest")
+      .option("startingOffsets", "earliest")
       .option("maxOffsetsPerTrigger", 10)
       .load()
 
